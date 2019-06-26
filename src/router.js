@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Springs from './views/springs/Springs.vue';
+import spring from './views/springs';
 
 Vue.use(Router);
 
@@ -11,7 +11,12 @@ export default new Router({
     {
       path: '/',
       name: 'springs',
-      component: Springs
+      component: spring.Springs
+    },
+    {
+      path: '/basic',
+      name: 'springs',
+      component: spring.Basic
     }
   ]
 });

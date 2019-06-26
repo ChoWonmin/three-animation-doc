@@ -19,7 +19,7 @@
                 v-list-tile-title {{ subItem.title }}
               v-list-tile-action
                 v-icon {{ subItem.action }}
-      v-content.orange(orange)
+      v-content
         router-view.pa-0.ma-0
 </template>
 
