@@ -5,6 +5,7 @@
 <script>
 import * as THREE from 'three';
 import animation3 from '../../module';
+import { parse } from 'path';
 
 export default {
   name: 'Spring-Basic',
@@ -18,21 +19,38 @@ export default {
     renderer.setSize(where.clientWidth, where.clientHeight);
     where.appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.BoxGeometry(4, 4, 4);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
+    const floor = new THREE.Mesh(new THREE.BoxGeometry(300, 1, 300), new THREE.MeshBasicMaterial({ color: 0xf0f0f0 }));
+    floor.position.set(0, -40, 0);
+    camera.position.z = 60;
+
+    const particle = new animation3.Particle(cube, new THREE.Vector3(0, 0, 0));
+
     scene.add(cube);
+    scene.add(floor);
 
-    camera.position.z = 5;
+    function update () {
+      dt += 0.00001;
 
-    renderer.render(scene, camera);
+      const G = new THREE.Vector3(0, -1, 0).multiplyScalar(particle.mass * 981); // 중력가속도
+
+      particle.addForce(G);
+      particle.eval(dt);
+      cube.position.set(particle.position.x, particle.position.y, particle.position.z);
+
+      if (particle.position.y < floor.position.y) {
+        cube.position.setY(floor.position.y + 3);
+      }
+
+    }
 
     function animate () {
       requestAnimationFrame(animate);
 
-      dt += 0.00001;
-      cube.rotation.x += dt;
-      cube.rotation.y += dt;
+      update();
+      // cube.position.set(0, -40, 0);
 
       renderer.render(scene, camera);
     }
