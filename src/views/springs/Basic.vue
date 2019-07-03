@@ -4,27 +4,31 @@
 
 <script>
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import animation3 from '../../module';
-import { parse } from 'path';
+
 
 export default {
   name: 'Spring-Basic',
   mounted () {
     let dt = 0;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
     const renderer = new THREE.WebGLRenderer();
+
     const where = document.getElementById('springs-doc');
     renderer.setSize(where.clientWidth, where.clientHeight);
     where.appendChild(renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     const geometry = new THREE.BoxGeometry(4, 4, 4);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
     const floor = new THREE.Mesh(new THREE.BoxGeometry(300, 1, 300), new THREE.MeshBasicMaterial({ color: 0xf0f0f0 }));
-    floor.position.set(0, -40, 0);
-    camera.position.z = 60;
+    cube.position.set(0, 30, 0);
+    floor.position.set(0, 0, 0);
+    camera.position.set(0, 20, 150);
 
     const particle = new animation3.Particle(cube, new THREE.Vector3(0, 0, 0));
 
@@ -43,15 +47,15 @@ export default {
       if (particle.position.y < floor.position.y) {
         cube.position.setY(floor.position.y + 3);
       }
-
     }
 
     function animate () {
       requestAnimationFrame(animate);
 
-      update();
-      // cube.position.set(0, -40, 0);
+      // update();
 
+
+      controls.update();
       renderer.render(scene, camera);
     }
     animate();

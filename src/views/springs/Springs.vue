@@ -4,6 +4,7 @@
 
 <script>
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export default {
   name: 'Springs',
@@ -11,10 +12,12 @@ export default {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    var renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer();
     const where = document.getElementById('springs-doc');
     renderer.setSize(where.clientWidth, where.clientHeight);
     where.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     var geometry = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -31,6 +34,7 @@ export default {
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
 
+      controls.update();
       renderer.render(scene, camera);
     }
     animate();
