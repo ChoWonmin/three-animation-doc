@@ -26,7 +26,7 @@ export default {
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
     const floor = new THREE.Mesh(new THREE.BoxGeometry(300, 1, 300), new THREE.MeshBasicMaterial({ color: 0xf0f0f0 }));
-    // cube.position.set(0, 30, 0);
+
     floor.position.set(0, 0, 0);
     camera.position.set(0, 20, 150);
 
